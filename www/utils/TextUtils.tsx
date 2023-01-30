@@ -80,7 +80,7 @@ export const responsiveTextStyles = {
         tabDiff: 12,
         webTabMin: 124,
         webTabDiff: 20,
-        className: `artano-h1`,
+        className: `app-h1`,
     },
     h2: {
         screenMin: 32,
@@ -91,7 +91,7 @@ export const responsiveTextStyles = {
         tabDiff: 12,
         webTabMin: 108,
         webTabDiff: 20,
-        className: `artano-h2`,
+        className: `app-h2`,
     },
     h3: {
         screenMin: 36,
@@ -102,7 +102,7 @@ export const responsiveTextStyles = {
         tabDiff: 16,
         webTabMin: 64,
         webTabDiff: 20,
-        className: `artano-h3`,
+        className: `app-h3`,
     },
     h4: {
         screenMin: 24,
@@ -113,7 +113,7 @@ export const responsiveTextStyles = {
         tabDiff: 16,
         webTabMin: 38,
         webTabDiff: 20,
-        className: `artano-h4`,
+        className: `app-h4`,
     },
     h5: {
         screenMin: 26,
@@ -124,7 +124,7 @@ export const responsiveTextStyles = {
         tabDiff: 8,
         webTabMin: 32,
         webTabDiff: 12,
-        className: `artano-h5`,
+        className: `app-h5`,
     },
     h6: {
         screenMin: 22,
@@ -135,7 +135,7 @@ export const responsiveTextStyles = {
         tabDiff: 6,
         webTabMin: 28,
         webTabDiff: 10,
-        className: `artano-h6`,
+        className: `app-h6`,
     },
     text24: {
         screenMin: 19,
@@ -146,7 +146,7 @@ export const responsiveTextStyles = {
         tabDiff: 3,
         webTabMin: 22,
         webTabDiff: 4,
-        className: `artano-text24`,
+        className: `app-text24`,
     },
 
     text20: {
@@ -158,7 +158,7 @@ export const responsiveTextStyles = {
         tabDiff: 3,
         webTabMin: 18,
         webTabDiff: 4,
-        className: `artano-text20`,
+        className: `app-text20`,
     },
 
     text18: {
@@ -170,7 +170,7 @@ export const responsiveTextStyles = {
         tabDiff: 3,
         webTabMin: 16,
         webTabDiff: 4,
-        className: `artano-text18`,
+        className: `app-text18`,
     },
 
     text16: {
@@ -182,7 +182,7 @@ export const responsiveTextStyles = {
         tabDiff: 3,
         webTabMin: 15,
         webTabDiff: 4,
-        className: `artano-text16`,
+        className: `app-text16`,
     },
 
     text14: {
@@ -194,7 +194,7 @@ export const responsiveTextStyles = {
         tabDiff: 3,
         webTabMin: 13,
         webTabDiff: 4,
-        className: `artano-text14`,
+        className: `app-text14`,
     },
 
     text12: {
@@ -206,7 +206,7 @@ export const responsiveTextStyles = {
         tabDiff: 3,
         webTabMin: 11,
         webTabDiff: 4,
-        className: `artano-text12`,
+        className: `app-text12`,
     },
 
     text10: {
@@ -218,7 +218,7 @@ export const responsiveTextStyles = {
         tabDiff: 3,
         webTabMin: 9,
         webTabDiff: 4,
-        className: `artano-text10`,
+        className: `app-text10`,
     },
 };
 
@@ -655,7 +655,7 @@ export const ResText10Regular = props => (
 );
 
 /* ============================================= */
-/* artano design typography */
+/* design typography */
 /* ============================================= */
 export const webHeader1 = styled.h1`
     font-style: normal;
