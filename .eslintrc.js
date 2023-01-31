@@ -15,13 +15,14 @@ module.exports = {
     },
     rules: {
         // Place to speeccify ESLint rules. Can be used to overwrite rules specified from the extended configs
-        "@typescript-eslint/explicit-function-return-type": "off",
+        // "@typescript-eslint/explicit-function-return-type": "off",
         "@typescript-eslint/ban-ts-comment": "off",
         "@typescript-eslint/no-empty-function": "off",
         "react/prop-types": "off",
         "jsx-a11y/href-no-hash": "off",
         "no-console": "warn",
         "valid-jsdoc": "warn",
+        "@typescript-eslint/explicit-module-boundary-types": "off",
     },
     settings: {
         react: {

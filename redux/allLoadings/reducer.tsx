@@ -11,12 +11,11 @@ export const loadingSelector = (actions: string[]) => (state: RootState) => {
     return actions.some(action => state.allLoadings[action]);
 };
 
-export const loadingSelectorFromAllLoading = (
-    actions: string[],
-) => (allLoadings: { [key: string]: string }) => {
-    // returns true if an action is in loading
-    return actions.some(action => allLoadings[action]);
-};
+export const loadingSelectorFromAllLoading =
+    (actions: string[]) => (allLoadings: { [key: string]: string }) => {
+        // returns true if an action is in loading
+        return actions.some(action => allLoadings[action]);
+    };
 
 // ------------------------------------------------------------------------- //
 // reducers

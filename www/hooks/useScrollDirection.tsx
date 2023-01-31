@@ -7,7 +7,6 @@ export const SCROLL_DOWN = "down";
 const useScrollDirection = ({
     initialDirection = NO_SCROLL,
     thresholdPixels = 0,
-    callback = scrollDir => {},
 } = {}) => {
     const [scrollDir, setScrollDir] = useState(initialDirection);
 
