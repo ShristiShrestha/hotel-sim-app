@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import React, { ReactElement } from "react";
 import { Layout } from "antd";
 

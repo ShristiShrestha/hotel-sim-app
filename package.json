@@ -2,22 +2,7 @@
   "name": "hotel-sim-app",
   "version": "0.1.0",
   "private": true,
-  "lint-staged": {
-    "*.{js,jsx}": [
-      "eslint '*/**/*.{js,jsx}' --fix"
-    ],
-    "*.{json,md,html}": [
-      "prettier --write"
-    ]
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
-  },
   "scripts": {
-    "lint": "next lint",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
@@ -31,7 +16,6 @@
     "axios": "^0.21.1",
     "axios-cancel": "^0.2.2",
     "bowser": "^2.11.0",
-    "eslint": "8.32.0",
     "eslint-config-next": "13.1.6",
     "font-awesome": "^4.7.0",
     "i18next": "^19.9.2",
@@ -62,6 +46,7 @@
     "validator": "^13.1.1"
   },
   "devDependencies": {
+    "@next/eslint-plugin-next": "^13.1.6",
     "@types/axios-cancel": "^0.2.0",
     "@types/immutability-helper": "^2.6.3",
     "@types/lodash": "^4.14.168",
@@ -73,26 +58,9 @@
     "@types/redux-logger": "^3.0.7",
     "@types/styled-components": "^5.1.9",
     "@types/toastr": "^2.1.38",
-    "@typescript-eslint/eslint-plugin": "^4.21.0",
-    "@typescript-eslint/parser": "^4.22.0",
-    "axios-mock-adapter": "^1.19.0",
-    "babel-eslint": "^10.1.0",
-    "eslint-config-prettier": "^8.2.0",
-    "eslint-config-react-app": "^6.0.0",
-    "eslint-loader": "^4.0.2",
-    "eslint-plugin-flowtype": "^5.6.0",
-    "eslint-plugin-import": "^2.22.1",
-    "eslint-plugin-jest": "^24.3.5",
-    "eslint-plugin-jsx-a11y": "^6.4.1",
-    "eslint-plugin-only-warn": "^1.0.2",
-    "eslint-plugin-prettier": "^3.4.0",
-    "eslint-plugin-react": "^7.23.2",
-    "eslint-plugin-react-hooks": "^4.2.0",
-    "eslint-plugin-security": "^1.4.0",
-    "eslint-plugin-simple-import-sort": "^7.0.0",
-    "eslint-plugin-sonarjs": "^0.6.0",
-    "eslint-plugin-testing-library": "^3.10.2",
-    "eslint-plugin-unicorn": "^30.0.0",
+    "@typescript-eslint/parser": "^5.50.0",
+    "eslint-config-prettier": "^8.6.0",
+    "eslint-plugin-prettier": "^4.2.1",
     "gh-pages": "^5.0.0",
     "husky": "^6.0.0",
     "lint-staged": "^10.5.4",
