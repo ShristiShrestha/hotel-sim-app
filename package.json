@@ -22,7 +22,7 @@
     ]
   },
   "scripts": {
-    "lint": "eslint --fix --ext .js,.jsx .",
+    "lint": "next lint && eslint --fix --ext .js,.jsx .",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
@@ -31,10 +31,13 @@
   },
   "dependencies": {
     "@ant-design/icons": "^4.6.2",
+    "@next/font": "13.1.6",
     "antd": "^4.15.3",
     "axios": "^0.21.1",
     "axios-cancel": "^0.2.2",
     "bowser": "^2.11.0",
+    "eslint-config-next": "13.1.6",
+    "eslint": "8.32.0",
     "font-awesome": "^4.7.0",
     "i18next": "^19.9.2",
     "i18next-browser-languagedetector": "^5.0.0",

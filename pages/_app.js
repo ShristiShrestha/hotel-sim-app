@@ -1,8 +1,8 @@
 import React from "react";
-import "../styles/globals.css";
-import "../styles/toastr.css";
 import { Provider } from "react-redux";
 import store from "../redux/store";
+import '@/styles/globals.css';
+import '@/styles/toastr.css';
 
 function MyApp({ Component, pageProps }) {
     return (
@@ -11,5 +11,3 @@ function MyApp({ Component, pageProps }) {
         </Provider>
     );
 }
-
-export default MyApp;

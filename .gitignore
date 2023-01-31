@@ -35,3 +35,10 @@ yarn-error.log*
 
 #idea
 .idea
+.pnpm-debug.log*
+
+# local env files
+.env*.local
+
+# vercel
+.vercel
