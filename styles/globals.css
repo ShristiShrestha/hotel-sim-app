@@ -909,3 +909,22 @@ input[id^="search"]::placeholder{
 .backdrop-bright-1-half{
   backdrop-filter: brightness(1.5);
 }
+
+/* ------- START SAMPLE ---------- */
+
+.site-layout-content {
+  min-height: calc(100vh - 120px);
+  padding: 24px;
+  background-color: #fff;
+}
+#components-layout-demo-top .logo {
+  float: left;
+  width: 120px;
+  height: 31px;
+  margin: 16px 24px 16px 0;
+  background: rgba(255, 255, 255, 0.3);
+}
+.ant-row-rtl #components-layout-demo-top .logo {
+  float: right;
+  margin: 16px 0 16px 24px;
+}

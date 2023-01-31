@@ -1,6 +1,8 @@
 import React from "react";
 
 import styled from "styled-components";
+import MainMenu from "../components/MainNav";
+import PageLayout from "../components/PageLayout";
 import { ResHeader3 } from "../www/utils/TextUtils";
 
 /* styled components */
@@ -14,8 +16,8 @@ const Wrapper = styled.div.attrs({
 
 export default function Home() {
     return (
-        <Wrapper>
-            <ResHeader3>Hi, I am in root page.</ResHeader3>
-        </Wrapper>
+        <PageLayout _header_menu={<MainMenu/>}
+        _content = {<div>Hello</div>}
+        />
     );
 }
