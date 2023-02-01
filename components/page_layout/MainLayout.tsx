@@ -10,7 +10,8 @@ const { Header, Content } = Layout;
 
 const TitleDiv = styled.div`
   background: white;
-  padding: 8px 24px 0;
+  line-height: 20px;
+  padding: 20px 24px 0;
 `;
 const FileNavDiv = styled.div<{ color?: string }>`
   display: inline-flex;
@@ -19,6 +20,10 @@ const FileNavDiv = styled.div<{ color?: string }>`
   padding-left: 16px;
   width: 100vw;
   background: ${(props) => props.color || "white"};
+
+  .ant-menu::before {
+    display: none;
+  }
 `;
 
 export default function MainLayout() {

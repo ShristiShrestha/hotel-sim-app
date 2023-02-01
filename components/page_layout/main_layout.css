@@ -5,6 +5,7 @@
 .ant-menu-horizontal {
     background: white;
     width: 100%;
+    border-bottom: none;
 }
 
 .ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-item,
@@ -12,6 +13,10 @@
     margin: 0;
     text-align: center;
     padding: 0 8px;
+}
+
+.ant-layout {
+    background: transparent;
 }
 
 .ant-layout-header {
