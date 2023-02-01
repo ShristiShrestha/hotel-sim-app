@@ -1,0 +1,41 @@
+/* ============================================= */
+/* Antd nav menu */
+/* ============================================= */
+
+.ant-menu-horizontal {
+    background: white;
+    width: 100%;
+}
+
+.ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-item,
+.ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-submenu {
+    margin: 0;
+    text-align: center;
+    padding: 0 8px;
+}
+
+.ant-layout-header {
+    line-height: 42px;
+    background: transparent;
+}
+
+.ant-layout-header .ant-menu {
+    line-height: 36px;
+}
+
+/* ------------------- CUSTOM CSS ------------- */
+
+.main-layout-header {
+    height: fit-content;
+}
+
+.main-layout-content {
+    min-height: calc(100vh - 120px);
+    background: lightgrey;
+}
+
+
+.main-layout-header .ant-divider-horizontal {
+    margin: 0;
+    border-color: lightgrey;
+}
