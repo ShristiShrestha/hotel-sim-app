@@ -15,9 +15,8 @@ import styled from "styled-components";
 
 const Wrapper = styled.div`
   .ant-table-thead > tr > th {
-    background: #f8f8f8
+    background: #f8f8f8;
   }
-;
 }
 
 .ant-table.ant-table-bordered > .ant-table-container {
@@ -313,29 +312,31 @@ const get_week_data = (i, date_str: string) => ({
   key: i + "_" + date_str + "date",
   date: date_str + "-6-Feb",
   rate: "130",
-  "a_+": 136,
+  "a_+": 136 + i,
   a: rateCircle,
   "a_-": 10,
-  "b_+": 136,
+  "b_+": 136 + i,
   b: rateCircle,
   "b_-": 10,
-  "c_+": 136,
+  "c_+": 136 + i,
   c: rateCircle,
   "c_-": 10,
-  "d_+": 136,
+  "d_+": 136 + i,
   d: rateCircle,
   "d_-": 10,
-  "e_+": 136,
+  "e_+": 136 + i,
   e: rateCircle,
-  "e_-": 10,
+  "e_-": 10 + i,
 });
+
+const week_date_str = ["Sun", "Mon", "Tues", "Wed", "Thurs", "Fri", "Sat"];
+
 export default function RatePlannerModal() {
   const [total_week_data, setTotalWeekData] = useState([]);
 
   const getData = (num_weeks = 3) => {
     const _total_week_data = [];
     if (total_week_data.length > 0) return total_week_data;
-    const week_date_str = ["Sun", "Mon", "Tues", "Wed", "Thurs", "Fri", "Sat"];
     for (let i = 0; i < num_weeks; i++) {
       const one_week_data = week_date_str.map((date_str) =>
         get_week_data(i, date_str)

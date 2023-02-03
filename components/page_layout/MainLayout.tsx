@@ -1,8 +1,8 @@
 import React from "react";
-import { Divider, Layout } from "antd";
+import {Divider, Layout} from "antd";
 import styled from "styled-components";
 import FileNav from "../page_nav/FileNav";
-import { ResText14SemiBold } from "../../www/utils/TextUtils";
+import {ResText14SemiBold} from "../../www/utils/TextUtils";
 import PlanNav from "../planner_nav/PlanNav";
 import FileName from "../planner_nav/FileName";
 

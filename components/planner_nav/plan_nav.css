@@ -35,14 +35,14 @@ ul#plan-nav-list li .anticon svg {
 
 .ant-modal-header {
     border-radius: 8px 8px 0 0;
-    padding: 8px 12px;
+    padding: 16px 12px;
 }
 
 .ant-modal-close-x {
-    font-size: 14px;
-    height: 44px;
-    width: 44px;
-    line-height: 44px;
+    font-size: 16px;
+    height: 14px;
+    width: 45px;
+    line-height: 55px;
 }
 
 .ant-picker-calendar-header {

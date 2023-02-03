@@ -17,6 +17,8 @@
 
 .ant-layout {
     background: transparent;
+    overflow: hidden;
+    height: 100vh;
 }
 
 .ant-layout-header {
@@ -33,10 +35,14 @@
 
 .main-layout-header {
     height: fit-content;
+    width: 100%;
+    padding: 0;
 }
 
 .main-layout-content {
     min-height: calc(100vh - 120px);
+    overflow-y: hidden;
+    -ms-overflow-y: hidden;
     background: lightgrey;
 }
 

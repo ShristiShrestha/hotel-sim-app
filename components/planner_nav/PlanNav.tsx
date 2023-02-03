@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import React, { useRef, useState } from "react";
+import React, {useRef, useState} from "react";
 import {
   BarChartOutlined,
   BorderlessTableOutlined,
@@ -8,15 +8,15 @@ import {
   TableOutlined,
   UsergroupAddOutlined,
 } from "@ant-design/icons";
-import { Modal, Tooltip } from "antd";
-import { capitalize } from "../../www/utils/StringUtils";
+import {Modal, Tooltip} from "antd";
+import {capitalize} from "../../www/utils/StringUtils";
 import CalendarModal from "../modal/CalendarModal";
 import ProductPlannerModal from "../modal/ProductPlannerModal";
 import RatePlannerModal from "../modal/RatePlannerModal";
 import ClockModal from "../modal/ClockModal";
-import type { DraggableData, DraggableEvent } from "react-draggable";
+import type {DraggableData, DraggableEvent} from "react-draggable";
 import Draggable from "react-draggable";
-import { ResText12SemiBold } from "../../www/utils/TextUtils";
+import {ResText16SemiBold} from "../../www/utils/TextUtils";
 
 const Wrapper = styled.div``;
 
@@ -159,7 +159,7 @@ export default function PlanNav() {
             onBlur={() => {}}
             // end
           >
-            <ResText12SemiBold>{getTitle(item)}</ResText12SemiBold>
+            <ResText16SemiBold>{getTitle(item)}</ResText16SemiBold>
           </div>
         }
         modalRender={(modal) => (
