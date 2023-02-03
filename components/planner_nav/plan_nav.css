@@ -27,11 +27,14 @@ ul#plan-nav-list li .anticon svg {
     border-width: 3px;
 }
 
+.ant-modal-body {
+    padding: 0;
+}
+
 .ant-modal-content {
     width: fit-content;
     padding: 0;
     border-radius: 8px !important;
-    background: #f2f2f2;
 }
 
 .ant-modal-header {
@@ -44,4 +47,13 @@ ul#plan-nav-list li .anticon svg {
     height: 44px;
     width: 44px;
     line-height: 44px;
+}
+
+.ant-picker-calendar-header {
+    padding: 8px;
+}
+
+.ant-picker-calendar-mini .ant-picker-content th {
+    border-bottom: 1px solid lightgrey;
+    height: 32px;
 }

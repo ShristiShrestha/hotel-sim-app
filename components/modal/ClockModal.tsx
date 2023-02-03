@@ -1,5 +1,10 @@
 import React, { useEffect, useState } from "react";
 import Clock from "react-clock";
+import styled from "styled-components";
+
+const Wrapper = styled.div`
+  padding: 16px;
+`;
 
 export default function ClockModal() {
   const [value, setValue] = useState(new Date());
@@ -12,8 +17,8 @@ export default function ClockModal() {
     };
   }, []);
   return (
-    <div>
+    <Wrapper>
       <Clock value={value} renderNumbers />
-    </div>
+    </Wrapper>
   );
 }

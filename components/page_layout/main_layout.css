@@ -22,6 +22,7 @@
 .ant-layout-header {
     line-height: 42px;
     background: transparent;
+    padding-left: 0;
 }
 
 .ant-layout-header .ant-menu {

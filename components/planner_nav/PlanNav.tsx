@@ -26,6 +26,23 @@ const ClickWrap = styled.li<{ disabled?: boolean }>`
   opacity: ${(props) => (props.disabled ? 0.75 : 1)};
 `;
 
+const getTitle = (id) => {
+  switch (id) {
+    case "clock":
+      return "Clock";
+    case "calendar":
+      return "Calendar";
+    case "rate":
+      return "Rate Planner";
+    case "product":
+      return "Product Planner";
+    case "group":
+      return "Group Planner";
+    default:
+      return "Not found";
+  }
+};
+
 const planner_icons = [
   {
     label: "Clock",
@@ -144,7 +161,7 @@ export default function PlanNav() {
             onBlur={() => {}}
             // end
           >
-            <ResText12SemiBold>{capitalize(item)}</ResText12SemiBold>
+            <ResText12SemiBold>{getTitle(item)}</ResText12SemiBold>
           </div>
         }
         modalRender={(modal) => (
