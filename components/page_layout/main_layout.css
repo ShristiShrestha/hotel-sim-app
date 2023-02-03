@@ -51,3 +51,22 @@
     margin: 0;
     border-color: lightgrey;
 }
+
+.ant-divider-horizontal {
+    margin: 0;
+    border-color: lightgrey;
+}
+
+.menu-divider {
+    height: fit-content !important;
+}
+
+.ant-menu-vertical > .ant-menu-item:hover{
+    background: #f4f2fa;
+    color: black;
+}
+
+.ant-menu-vertical > .ant-menu-item {
+    height: fit-content !important;
+    color: #4f4f4f;
+}
