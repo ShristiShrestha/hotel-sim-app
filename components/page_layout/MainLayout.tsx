@@ -37,7 +37,7 @@ export default function MainLayout() {
           <FileNav />
         </FileNavDiv>
         <Divider />
-        <FileNavDiv color={"whitesmoke"}>
+        <FileNavDiv color={"#f8f8f8"}>
           <FileName />
           <PlanNav />
         </FileNavDiv>

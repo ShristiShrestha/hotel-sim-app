@@ -2,16 +2,15 @@ ul#plan-nav-list {
     list-style: none;
     margin: 0;
     padding: 0;
-    padding-top: 10px;
+    padding-top: 4px;
     display: inline-flex;
-    column-gap: 8px;
+    column-gap: 6px;
 }
 
 ul#plan-nav-list li {
     display: inline-flex;
     padding: 4px;
-    border-style: outset;
-    border-width: 2px;
+    border: 2.5px outset #fcfcfc;
 }
 
 ul#plan-nav-list li .anticon svg {
@@ -20,11 +19,8 @@ ul#plan-nav-list li .anticon svg {
     color: dimgrey;
 }
 
-.plan-li-clicked {
-    border-style: inset;
-    border-color: lightgrey;
-    border-radius: 1px;
-    border-width: 3px;
+#click-wrap-plan-li-clicked {
+    border: 2.5px inset #fcfcfc !important;
 }
 
 .ant-modal-body {

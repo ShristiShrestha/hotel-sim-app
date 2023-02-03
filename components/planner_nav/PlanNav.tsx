@@ -111,13 +111,11 @@ export default function PlanNav() {
     group: false,
   });
   const onclickMenuItem = (id, state_key) => {
-    const element = document.getElementById(id);
-    // toggle clicked style
-    // @ts-ignore
-    !!element && element.classList.toggle("plan-li-clicked");
     // toggle modal display
-    const new_value = !modelEnablers[state_key];
-    setModelEnablers({ ...modelEnablers, [state_key]: new_value });
+    setModelEnablers({
+      ...modelEnablers,
+      [state_key]: !modelEnablers[state_key],
+    });
   };
 
   const handleModal = (item, value) => {
@@ -193,7 +191,7 @@ export default function PlanNav() {
           >
             <ClickWrap
               key={"plan-nav-click-wrap" + icon.key}
-              id={"click-wrap-" + icon.key}
+              id={modelEnablers[icon.key] ? "click-wrap-plan-li-clicked" : ""}
               disabled={icon.disabled}
               onClick={() =>
                 !icon.disabled &&
