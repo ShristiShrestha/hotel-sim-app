@@ -1,0 +1,39 @@
+.custom-modal {
+    /*background-color: rgb(0, 0, 0); !* Fallback color *!*/
+    /*background-color: rgba(0, 0, 0, 0.4); !* Overlay effect: translucent background: black w/ partial opacity *!*/
+    /*backdrop-filter: blur(5px); !* blurry filter *!*/
+    z-index: 1; /* Overlay effect: positioned over other containers */
+    width: fit-content; /* Full width */
+    height: fit-content; /* Full height */
+    position: absolute; /* Fix position on the top-left corner*/
+    top: 100pt;
+    left: 20pt;
+    /*right: 0;*/
+    /*bottom: 0;*/
+    overflow: auto; /* Enable scroll if needed */
+    padding-top: 80px; /* Location of the content container */
+}
+
+.custom-modal-content {
+    background-color: white;
+    width: fit-content; /* Width in proportion to its parent container*/
+    height: fit-content; /* Height in proportion to its parent container */
+    margin: auto; /* Auto margin according to the element width */
+    padding: 10px;
+    border: 1px solid black;
+    border-radius: 20px; /* Optional. Rounds container corners */
+}
+
+.close {
+    color: #aaaaaa;
+    float: right; /* Positioned to the right of the parent container whichever size it is */
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}

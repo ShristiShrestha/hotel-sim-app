@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import React, {useRef, useState} from "react";
+import React, { useRef, useState } from "react";
 import {
   BarChartOutlined,
   BorderlessTableOutlined,
@@ -8,15 +8,16 @@ import {
   TableOutlined,
   UsergroupAddOutlined,
 } from "@ant-design/icons";
-import {Modal, Tooltip} from "antd";
-import {capitalize} from "../../www/utils/StringUtils";
+import { Modal, Tooltip } from "antd";
+import { capitalize } from "../../www/utils/StringUtils";
 import CalendarModal from "../modal/CalendarModal";
 import ProductPlannerModal from "../modal/ProductPlannerModal";
 import RatePlannerModal from "../modal/RatePlannerModal";
 import ClockModal from "../modal/ClockModal";
-import type {DraggableData, DraggableEvent} from "react-draggable";
+import type { DraggableData, DraggableEvent } from "react-draggable";
 import Draggable from "react-draggable";
-import {ResText16SemiBold} from "../../www/utils/TextUtils";
+import { ResText16SemiBold } from "../../www/utils/TextUtils";
+import CustomModal from "../modal/CustomModal";
 
 const Wrapper = styled.div``;
 
@@ -137,6 +138,19 @@ export default function PlanNav() {
     }
   };
 
+  const getClickWrap = (icon) => (
+    <ClickWrap
+      key={"plan-nav-click-wrap" + icon.key}
+      id={modelEnablers[icon.key] ? "click-wrap-plan-li-clicked" : ""}
+      disabled={icon.disabled}
+      onClick={() =>
+        !icon.disabled && onclickMenuItem("click-wrap-" + icon.key, icon.key)
+      }
+    >
+      {icon.item}
+    </ClickWrap>
+  );
+
   const getModals = () =>
     Object.keys(modelEnablers).map((item) => (
       <Modal
@@ -189,22 +203,17 @@ export default function PlanNav() {
             title={capitalize(icon.label)}
             arrowPointAtCenter
           >
-            <ClickWrap
-              key={"plan-nav-click-wrap" + icon.key}
-              id={modelEnablers[icon.key] ? "click-wrap-plan-li-clicked" : ""}
-              disabled={icon.disabled}
-              onClick={() =>
-                !icon.disabled &&
-                onclickMenuItem("click-wrap-" + icon.key, icon.key)
-              }
+            <CustomModal
+              label={icon.label}
+              key={icon.key}
+              disabled={icon.disabled || false}
+              clickItem={icon.item}
             >
-              {icon.item}
-            </ClickWrap>
+              {getModalContent(icon.key)}
+            </CustomModal>
           </Tooltip>
         ))}
       </ul>
-
-      {getModals()}
     </Wrapper>
   );
 }

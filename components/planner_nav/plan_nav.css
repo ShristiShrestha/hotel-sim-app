@@ -19,10 +19,6 @@ ul#plan-nav-list li .anticon svg {
     color: dimgrey;
 }
 
-#click-wrap-plan-li-clicked {
-    border: 2.5px inset #fcfcfc !important;
-}
-
 .ant-modal-body {
     padding: 0;
 }
