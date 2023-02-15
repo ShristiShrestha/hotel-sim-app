@@ -1,5 +1,6 @@
 @import "~antd/dist/antd.css";
 @import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+@import "import_all.css";
 
 body {
     margin: 0;
@@ -813,7 +814,7 @@ input[id^="search"]::placeholder {
 /* shadows */
 /* ============================================= */
 .jelly-inner-shadow {
-    box-shadow: rgba(4, 4, 5, 0.05) 0 5px 12px;
+    box-shadow: rgb(4 4 5 / 5%) 6px -6px 28px;
 }
 
 .inverse-jelly-inner-shadow {

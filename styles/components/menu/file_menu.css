@@ -1,0 +1,11 @@
+.ant-menu-horizontal > .ant-menu-submenu::after {
+    display: none;
+}
+
+.ant-menu-horizontal > .ant-menu-item, .ant-menu-horizontal > .ant-menu-submenu:hover {
+    border-bottom: 2px solid #3d94fb;
+}
+
+.ant-layout-header .ant-menu {
+    height: 28pt;
+}

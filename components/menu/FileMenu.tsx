@@ -33,8 +33,8 @@ const commitmentMenu = [
   {
     label: "POR",
     key: "commitment:por",
-  }
-]
+  },
+];
 
 const items: MenuProps["items"] = [
   {
@@ -54,7 +54,7 @@ const items: MenuProps["items"] = [
         key: "file:close",
       },
       {
-        label: <Divider className={"menu-divider"}/>,
+        label: <Divider className={"menu-divider"} />,
         key: "file:divider_1",
       },
       {
@@ -119,7 +119,7 @@ const items: MenuProps["items"] = [
       {
         key: "plan:clock_settings",
         label: "Clock Settings",
-        children: clockMenu
+        children: clockMenu,
         // label: <Menu mode="vertical" items={clockMenu}/>,
       },
       {
@@ -177,7 +177,6 @@ const items: MenuProps["items"] = [
       {
         label: "Commissions Report",
         key: "report:commissions",
-
       },
       {
         label: "Advertising Report",
@@ -202,17 +201,17 @@ const items: MenuProps["items"] = [
         key: "chart:margin_by_segment",
       },
       {
-        label: <Divider className={"menu-divider"}/>,
-        key: "chart:divider_1"
+        label: <Divider className={"menu-divider"} />,
+        key: "chart:divider_1",
       },
       {
         label: "Commitments",
         key: "chart:commitments",
-        children: commitmentMenu
+        children: commitmentMenu,
       },
       {
-        label: <Divider className={"menu-divider"}/>,
-        key: "chart:divider_2"
+        label: <Divider className={"menu-divider"} />,
+        key: "chart:divider_2",
       },
       {
         label: "Rates Reserved",
@@ -266,19 +265,19 @@ const items: MenuProps["items"] = [
   },
 ];
 
-export default function FileNav () {
-    const [current, setCurrent] = useState("mail");
+export default function FileMenu() {
+  const [current, setCurrent] = useState("mail");
 
-    const onClick: MenuProps["onClick"] = e => {
-        setCurrent(e.key);
-    };
+  const onClick: MenuProps["onClick"] = (e) => {
+    setCurrent(e.key);
+  };
 
-    return (
-       <Menu
-            onClick={onClick}
-            selectedKeys={[current]}
-            mode="horizontal"
-            items={items}
-        />
-    );
-};
+  return (
+    <Menu
+      onClick={onClick}
+      selectedKeys={[current]}
+      mode="horizontal"
+      items={items}
+    />
+  );
+}

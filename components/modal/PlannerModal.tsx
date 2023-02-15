@@ -1,7 +1,7 @@
 import React, { ReactElement, useRef, useState } from "react";
 import styled from "styled-components";
 import Draggable, { DraggableData, DraggableEvent } from "react-draggable";
-import { ResText16SemiBold } from "../../www/utils/TextUtils";
+import { ResText12SemiBold } from "../../www/utils/TextUtils";
 
 interface Props {
   label: string;
@@ -14,25 +14,13 @@ interface Props {
   clickedClassname?: string;
 }
 
-const Wrapper = styled.div`
-  #click-wrap-clicked {
-    border: 2.5px inset #fcfcfc !important;
-  }
-
-  .resizable-content {
-    min-height: 30px;
-    min-width: 30px;
-    resize: both;
-    overflow: auto;
-    max-height: fit-content;
-    max-width: fit-content;
-  }
-`;
-
 const ClickWrap = styled.div<{ isDisabled?: boolean }>`
-  padding: 4px;
+  padding: 0 6px;
   cursor: ${(props) => (props.isDisabled || false ? "no-drop" : "default")};
   opacity: ${(props) => (props.isDisabled ? 0.75 : 1)};
+  font-size: 16px;
+  width: 32px;
+  height: 32px;
 `;
 
 const getTitle = (id) => {
@@ -52,21 +40,16 @@ const getTitle = (id) => {
   }
 };
 
-//  idea is to abstract the trigger component (button, text that opens/closes a modal)
+//  idea is to abstract the trigger component (shortcut icons to open planner)
 // and the corresponding modal in one place
 // that modal is rendered at the center, no matter what
 // and can be moved around within the window
 // show clicked dampen effect on trigger component
 // if value in the props requires it
-export default function CustomModal(props: Props) {
+export default function PlannerModal(props: Props) {
   const ref = useRef<HTMLDivElement>(null);
   const [visible, setVisible] = useState(false);
   const [disabled, setDisabled] = useState(false);
-  const onClick = (e) => {
-    e.stopPropagation();
-    !props.disabled && setVisible(!visible);
-  };
-
   const [bounds, setBounds] = useState({
     left: 0,
     top: 0,
@@ -74,6 +57,12 @@ export default function CustomModal(props: Props) {
     right: 0,
   });
 
+  // on click shortcut icons/ triggers
+  const onClick = (e) => {
+    !props.disabled && setVisible(!visible);
+  };
+
+  // on dragging popup modals
   const onStart = (_event: DraggableEvent, uiData: DraggableData) => {
     const { clientWidth, clientHeight } = window.document.documentElement;
     const targetRect = ref.current?.getBoundingClientRect();
@@ -88,8 +77,34 @@ export default function CustomModal(props: Props) {
     });
   };
 
+  // get modal title
+  const getModalTitle = () => (
+    <div
+      ref={ref}
+      className={"planner-modal-header h-justified-flex"}
+      onMouseOver={() => {
+        if (disabled) {
+          setDisabled(false);
+        }
+      }}
+      onMouseOut={() => {
+        setDisabled(true);
+      }}
+    >
+      <ResText12SemiBold>{getTitle(props.label)}</ResText12SemiBold>
+      <span className="close" onClick={() => setVisible(false)}>
+        &times;
+      </span>
+    </div>
+  );
+
+  const getModalContent = () => (
+    <div className={"planner-modal-content"}>{props.children}</div>
+  );
+
   return (
-    <Wrapper>
+    <>
+      {/* menu item */}
       <ClickWrap
         ref={ref}
         key={"click-wrap-" + props.key}
@@ -101,40 +116,19 @@ export default function CustomModal(props: Props) {
       >
         {props.clickItem}
       </ClickWrap>
+      {/* show draggable popup */}
       {visible && (
         <Draggable
           disabled={disabled}
           bounds={bounds}
           onStart={(event, uiData) => onStart(event, uiData)}
         >
-          <div className={"custom-modal"}>
-            <div
-              ref={ref}
-              className={"custom-modal-header"}
-              style={{
-                width: "100%",
-                cursor: "move",
-              }}
-              onMouseOver={() => {
-                if (disabled) {
-                  setDisabled(false);
-                }
-              }}
-              onMouseOut={() => {
-                setDisabled(true);
-              }}
-              onFocus={() => {}}
-              onBlur={() => {}}
-            >
-              <ResText16SemiBold>{getTitle(props.label)}</ResText16SemiBold>
-              <span className="close" onClick={() => setVisible(false)}>
-                &times;
-              </span>
-            </div>
-            <div className={"custom-modal-content"}>{props.children}</div>
+          <div className={"planner-modal jelly-inner-shadow"}>
+            {getModalTitle()}
+            {getModalContent()}
           </div>
         </Draggable>
       )}
-    </Wrapper>
+    </>
   );
 }

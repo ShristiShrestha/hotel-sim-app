@@ -28,7 +28,7 @@ const Wrapper = styled.div`
   }
 
   #menu-item-clicked {
-    border: 3px inset #fff !important;
+    border: 2px inset #fff !important;
     background: white;
 
     .anticon {
@@ -36,13 +36,23 @@ const Wrapper = styled.div`
     }
   }
 
-  .ant-table table {
-    border-spacing: 2px;
+  .ant-table-content {
+    padding-bottom: 12px;
+  }
+
+  .ant-table thead {
+    position: sticky;
+    position: -webkit-sticky;
+    left: 0;
+    right: 0;
+    top: 0;
+    z-index: 1;
   }
 
   .ant-table-thead > tr > th {
-    background: #f8f8f8;
-    padding: 8px 8px !important;
+    background: #f2f2f2;
+    border-right: 1px solid #e5e9ed !important;
+    padding: 2px 8px !important;
   }
 
   .ant-table-tbody > tr > td:hover {
@@ -54,7 +64,8 @@ const Wrapper = styled.div`
   }
 `;
 
-const menuIcons = [
+/******************* left products view ************************/
+const productMenuIcons = [
   <ToolOutlined />,
   <PlaySquareOutlined />,
   <DollarCircleOutlined />,
@@ -66,11 +77,12 @@ const menuIcons = [
   <RightCircleOutlined />,
 ];
 
-const menuData = menuIcons.map((icon, id) => ({
+const productMenuColData = productMenuIcons.map((icon, id) => ({
   key: id + "-menu-icon",
   menuItem: { id, icon },
 }));
 
+/******************* right calendar view  ************************/
 const days = ["Sun", "Mon", "Tue", "Wed", "Thr", "Fri", "Sat"];
 const months = ["Feb", "Mar", "Apr", "May"];
 const week_ranges = [
@@ -98,28 +110,18 @@ const getRowData = (mnth, start, size) => {
   return _rowData;
 };
 
-const calendarColumn = days.map((day) => ({
+const calendarCols = days.map((day) => ({
   key: "calendar-column-" + day,
   title: <ResText10SemiBold>{day}</ResText10SemiBold>,
   dataIndex: "calendarColumn" + day,
   render: (param) => {
     return {
-      props: {
-        style: {
-          padding: 4,
-          minWidth: 24,
-          minHeight: 32,
-        },
-      },
       children: !!param && (
-        <div
-          id={"calendar-item-clicked-" + param["id"]}
-          style={{ padding: 4, minHeight: 28 }}
-        >
+        <div id={"calendar-item-clicked-" + param["id"]}>
           <div>
             <ResText10Regular>{param["day_str"]}</ResText10Regular>
           </div>
-          <div>
+          <div className={"centered-flex"}>
             <ResText10Regular>{param["val"]}</ResText10Regular>
           </div>
         </div>
@@ -128,7 +130,7 @@ const calendarColumn = days.map((day) => ({
   },
 }));
 
-export default function ProductPlannerModal() {
+export default function ProductPlanner() {
   const [clickedItem, setClickedItem] = useState(0);
   const [calendarData, setCalendarData] = useState([]);
   const getData = (num_months = 3) => {
@@ -149,7 +151,7 @@ export default function ProductPlannerModal() {
     getData(2);
   }, []);
 
-  const menuColumn = [
+  const productMenuCol = [
     {
       key: "menu-column",
       dataIndex: "menuItem",
@@ -158,7 +160,7 @@ export default function ProductPlannerModal() {
           props: {
             style: {
               padding: 0,
-              border: `3px outset #fcfcfc`,
+              border: `2px outset #fcfcfc`,
               background: pearl,
               boxShadow: "0 0 2px",
             },
@@ -167,7 +169,9 @@ export default function ProductPlannerModal() {
             <div
               id={clickedItem == id ? "menu-item-clicked" : ""}
               onClick={() => setClickedItem(id)}
-              style={{ padding: 4 }}
+              style={{
+                padding: 5,
+              }}
             >
               {icon}
             </div>
@@ -177,30 +181,36 @@ export default function ProductPlannerModal() {
     },
   ];
 
-  const menuTable = (
+  const productMenu = (
     <Table // @ts-ignore
-      columns={menuColumn}
-      dataSource={menuData}
+      columns={productMenuCol}
+      dataSource={productMenuColData}
       showHeader={false}
       pagination={false}
       size={"small"}
+      style={{
+        height: "fit-content",
+        position: "sticky",
+        left: 0,
+        top: 0,
+      }}
       bordered
     />
   );
 
   const calendarTable = (
     <Table // @ts-ignore
-      columns={calendarColumn}
+      columns={calendarCols}
       dataSource={calendarData}
       size={"small"}
-      pagination={{ pageSize: 5 }}
+      pagination={false}
       bordered
     />
   );
 
   return (
     <Wrapper>
-      {menuTable}
+      {productMenu}
       {calendarTable}
     </Wrapper>
   );

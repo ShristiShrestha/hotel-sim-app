@@ -6,7 +6,7 @@ const Wrapper = styled.div`
   padding: 16px;
 `;
 
-export default function ClockModal() {
+export default function SimClock() {
   const [value, setValue] = useState(new Date());
 
   useEffect(() => {

@@ -331,7 +331,7 @@ const get_week_data = (i, date_str: string) => ({
 
 const week_date_str = ["Sun", "Mon", "Tues", "Wed", "Thurs", "Fri", "Sat"];
 
-export default function RatePlannerModal() {
+export default function RatePlanner() {
   const [total_week_data, setTotalWeekData] = useState([]);
 
   const getData = (num_weeks = 3) => {

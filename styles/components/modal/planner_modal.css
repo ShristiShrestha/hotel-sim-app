@@ -1,0 +1,53 @@
+.click-wrap-clicked {
+    border: 2.5px inset #fcfcfc !important;
+}
+
+.resizable-content {
+    min-height: 100px;
+    min-width: 100px;
+    resize: both;
+    overflow: auto;
+    max-height: fit-content;
+    max-width: fit-content;
+}
+
+.planner-modal {
+    position: absolute;
+    top: 10vh;
+    left: 20vw;
+}
+
+.planner-modal-header {
+    width: 100%;
+    height: fit-content;
+    cursor: move;
+    background: white;
+    padding: 2px 12px;
+    border-radius: 8px 8px 0 0;
+}
+
+.planner-modal-content {
+    position: relative;
+    width: 100%;
+    height: fit-content;
+    max-height: 26vh;
+    background: white;
+    margin: auto;
+    border-radius: 0 0 4px 4px;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.close {
+    color: #aaaaaa;
+    float: right; /* Positioned to the right of the parent container whichever size it is */
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
