@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Table } from "antd";
-import { ResText12Regular, ResText12SemiBold } from "../../www/utils/TextUtils";
+import { ResText10Regular, ResText10SemiBold } from "../../www/utils/TextUtils";
 import date from "async-validator/dist-types/validator/date";
 import {
   green,
@@ -14,8 +14,18 @@ import {
 import styled from "styled-components";
 
 const Wrapper = styled.div`
+  .ant-table thead {
+    position: sticky;
+    position: -webkit-sticky;
+    left: 0;
+    right: 0;
+    top: 0;
+    z-index: 1;
+  }
+
   .ant-table-thead > tr > th {
     background: #f8f8f8;
+    padding: 2px 8px !important;
   }
 }
 
@@ -97,7 +107,7 @@ const openStyle = {
   },
 };
 
-const getTitle = (text) => <ResText12SemiBold>{text}</ResText12SemiBold>;
+const getTitle = (text) => <ResText10SemiBold>{text}</ResText10SemiBold>;
 
 const columns = [
   {
@@ -112,7 +122,7 @@ const columns = [
             minWidth: 100,
           },
         },
-        children: <ResText12Regular>{text}</ResText12Regular>,
+        children: <ResText10Regular>{text}</ResText10Regular>,
       };
     },
   },
@@ -127,7 +137,7 @@ const columns = [
             background: lightBanana,
           },
         },
-        children: <ResText12Regular>{text}</ResText12Regular>,
+        children: <ResText10Regular>{text}</ResText10Regular>,
       };
     },
   },
@@ -138,7 +148,7 @@ const columns = [
     render: (text) => {
       return {
         props: openStyle,
-        children: <ResText12Regular>{text}</ResText12Regular>,
+        children: <ResText10Regular>{text}</ResText10Regular>,
       };
     },
   },
@@ -160,7 +170,7 @@ const columns = [
     render: (text) => {
       return {
         props: closeStyle,
-        children: <ResText12Regular>{text}</ResText12Regular>,
+        children: <ResText10Regular>{text}</ResText10Regular>,
       };
     },
   },
@@ -171,7 +181,7 @@ const columns = [
     render: (text) => {
       return {
         props: openStyle,
-        children: <ResText12Regular>{text}</ResText12Regular>,
+        children: <ResText10Regular>{text}</ResText10Regular>,
       };
     },
   },
@@ -193,7 +203,7 @@ const columns = [
     render: (text) => {
       return {
         props: closeStyle,
-        children: <ResText12Regular>{text}</ResText12Regular>,
+        children: <ResText10Regular>{text}</ResText10Regular>,
       };
     },
   },
@@ -204,7 +214,7 @@ const columns = [
     render: (text) => {
       return {
         props: openStyle,
-        children: <ResText12Regular>{text}</ResText12Regular>,
+        children: <ResText10Regular>{text}</ResText10Regular>,
       };
     },
   },
@@ -226,7 +236,7 @@ const columns = [
     render: (text) => {
       return {
         props: closeStyle,
-        children: <ResText12Regular>{text}</ResText12Regular>,
+        children: <ResText10Regular>{text}</ResText10Regular>,
       };
     },
   },
@@ -237,7 +247,7 @@ const columns = [
     render: (text) => {
       return {
         props: openStyle,
-        children: <ResText12Regular>{text}</ResText12Regular>,
+        children: <ResText10Regular>{text}</ResText10Regular>,
       };
     },
   },
@@ -259,7 +269,7 @@ const columns = [
     render: (text) => {
       return {
         props: closeStyle,
-        children: <ResText12Regular>{text}</ResText12Regular>,
+        children: <ResText10Regular>{text}</ResText10Regular>,
       };
     },
   },
@@ -270,7 +280,7 @@ const columns = [
     render: (text) => {
       return {
         props: openStyle,
-        children: <ResText12Regular>{text}</ResText12Regular>,
+        children: <ResText10Regular>{text}</ResText10Regular>,
       };
     },
   },
@@ -292,7 +302,7 @@ const columns = [
     render: (text) => {
       return {
         props: closeStyle,
-        children: <ResText12Regular>{text}</ResText12Regular>,
+        children: <ResText10Regular>{text}</ResText10Regular>,
       };
     },
   },
@@ -332,21 +342,21 @@ const get_week_data = (i, date_str: string) => ({
 const week_date_str = ["Sun", "Mon", "Tues", "Wed", "Thurs", "Fri", "Sat"];
 
 export default function RatePlanner() {
-  const [total_week_data, setTotalWeekData] = useState([]);
+  const [columnData, setTotalWeekData] = useState([]);
 
   const getData = (num_weeks = 3) => {
-    const _total_week_data = [];
-    if (total_week_data.length > 0) return total_week_data;
+    const _columnData = [];
+    if (columnData.length > 0) return columnData;
     for (let i = 0; i < num_weeks; i++) {
       const one_week_data = week_date_str.map((date_str) =>
         get_week_data(i, date_str)
       );
       // @ts-ignore
-      _total_week_data.push(one_week_data);
+      _columnData.push(one_week_data);
     }
-    console.info(_total_week_data);
+    console.info(_columnData);
     // @ts-ignore
-    setTotalWeekData(_total_week_data.flat(1));
+    setTotalWeekData(_columnData.flat(1));
   };
 
   useEffect(() => {
@@ -357,9 +367,10 @@ export default function RatePlanner() {
     <Wrapper>
       <Table // @ts-ignore
         columns={columns}
-        dataSource={total_week_data}
+        dataSource={columnData}
         size={"small"}
         bordered
+        pagination={false}
       />
     </Wrapper>
   );

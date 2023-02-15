@@ -479,14 +479,6 @@ a:not([href]):not([class]) {
     margin: 0 4px;
 }
 
-/* ============================================= */
-/* Antd table header */
-/* ============================================= */
-.ant-table-thead > tr > th {
-    background: #f3f7ff;
-    border-bottom: 1px solid #e5e9ed;
-    border-top: 1px solid #e5e9ed;
-}
 
 /* ============================================= */
 /* Antd switch btn */
