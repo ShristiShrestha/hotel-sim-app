@@ -14,7 +14,7 @@ import {
   ToolOutlined,
 } from "@ant-design/icons";
 import { capitalize } from "../../www/utils/StringUtils";
-import { ResText12SemiBold } from "../../www/utils/TextUtils";
+import { ResText10Regular, ResText10SemiBold } from "../../www/utils/TextUtils";
 
 const Wrapper = styled.div`
   display: flex;
@@ -23,7 +23,7 @@ const Wrapper = styled.div`
   column-gap: 0;
 
   .anticon {
-    font-size: 30px;
+    font-size: 16px;
     color: ${grey3};
   }
 
@@ -42,7 +42,7 @@ const Wrapper = styled.div`
 
   .ant-table-thead > tr > th {
     background: #f8f8f8;
-    padding: 16px 12px !important;
+    padding: 8px 8px !important;
   }
 
   .ant-table-tbody > tr > td:hover {
@@ -79,45 +79,49 @@ const week_ranges = [
   [15, 7],
   [22, 7],
   [29, 2],
-]
+];
 const getRowData = (mnth, start, size) => {
   const days_num = Array(size)
     .fill(1)
     .map((element, index) => start + index);
   const _rowData = {
     key: "calendar-item-data-" + start + "-" + mnth,
-  }
-  for (let i=0; i<days_num.length; i++){
-    const day = days_num[i]
-    _rowData["calendarColumn"+days[i]] = {
+  };
+  for (let i = 0; i < days_num.length; i++) {
+    const day = days_num[i];
+    _rowData["calendarColumn" + days[i]] = {
       id: "day-" + day + "-month-" + mnth,
       day_str: capitalize(mnth) + " " + day,
-      val: Math.floor(Math.random() * 70),
-    }
+      val: Math.floor(Math.random() * 70 + 1),
+    };
   }
-  return _rowData
+  return _rowData;
 };
 
 const calendarColumn = days.map((day) => ({
-  key: "calendar-column-"+day,
-  title: <ResText12SemiBold>{day}</ResText12SemiBold>,
-  dataIndex: "calendarColumn"+day,
+  key: "calendar-column-" + day,
+  title: <ResText10SemiBold>{day}</ResText10SemiBold>,
+  dataIndex: "calendarColumn" + day,
   render: (param) => {
     return {
       props: {
         style: {
           padding: 4,
-          minWidth: 100,
-          minHeight: 120
+          minWidth: 24,
+          minHeight: 32,
         },
       },
-      children: (
-        !!param && <div
-          id={"calendar-item-clicked-"+param["id"]}
-          style={{ padding: 8, minHeight: 90 }}
+      children: !!param && (
+        <div
+          id={"calendar-item-clicked-" + param["id"]}
+          style={{ padding: 4, minHeight: 28 }}
         >
-          <div>{param["day_str"]}</div>
-          <div>{param["val"]}</div>
+          <div>
+            <ResText10Regular>{param["day_str"]}</ResText10Regular>
+          </div>
+          <div>
+            <ResText10Regular>{param["val"]}</ResText10Regular>
+          </div>
         </div>
       ),
     };
@@ -163,7 +167,7 @@ export default function ProductPlannerModal() {
             <div
               id={clickedItem == id ? "menu-item-clicked" : ""}
               onClick={() => setClickedItem(id)}
-              style={{ padding: 10 }}
+              style={{ padding: 4 }}
             >
               {icon}
             </div>
@@ -189,11 +193,10 @@ export default function ProductPlannerModal() {
       columns={calendarColumn}
       dataSource={calendarData}
       size={"small"}
-      pagination={{pageSize:5}}
+      pagination={{ pageSize: 5 }}
       bordered
     />
   );
-
 
   return (
     <Wrapper>
