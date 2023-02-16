@@ -54,8 +54,8 @@ export function updateClockSpeed(props: ClockSpeedProps) {
     dispatch(actionStart(PUT_CLOCK_SPEED));
     putClockSpeed(props)
       .then((res) => {
-        dispatch(actionSuccess(PUT_CLOCK_SPEED, props));
-        dispatch(setClockSpeed(props));
+        dispatch(actionSuccess(PUT_CLOCK_SPEED, res));
+        dispatch(setClockSpeed(res));
       })
       .catch((err) => dispatch(actionFailure(PUT_CLOCK_SPEED, err)));
   };
@@ -66,22 +66,21 @@ export function updateClockRun(props: ClockRunProps) {
     dispatch(actionStart(PATCH_CLOCK_RUN));
     patchClockRun(props)
       .then((res) => {
-        dispatch(actionSuccess(PATCH_CLOCK_RUN, props));
-        dispatch(setClockRun(props));
+        dispatch(actionSuccess(PATCH_CLOCK_RUN, res));
+        dispatch(setClockRun(res));
       })
       .catch((err) => dispatch(actionFailure(PATCH_CLOCK_RUN, err)));
   };
 }
 
-export function fetchClockSyncTime(props: SyncClockTimeProps) {
+export function fetchClockSyncTime() {
   return (dispatch: MyThunkDispatch) => {
     dispatch(actionStart(SYNC_CLOCK_TIME));
-    syncClockTime(props)
+    syncClockTime()
       .then((res) => {
-        dispatch(actionSuccess(SYNC_CLOCK_TIME, props));
-        dispatch(setSyncClockTime(props));
+        dispatch(actionSuccess(SYNC_CLOCK_TIME, res));
+        dispatch(setSyncClockTime(res));
       })
       .catch((err) => dispatch(actionFailure(SYNC_CLOCK_TIME, err)));
-    dispatch(actionSuccess(SYNC_CLOCK_TIME, props));
   };
 }

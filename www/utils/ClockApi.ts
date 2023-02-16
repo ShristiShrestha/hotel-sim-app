@@ -6,31 +6,24 @@ import {
 } from "../../redux/clock/types";
 
 export const putClockSpeed = (props: ClockSpeedProps) => {
-  return Api.apiCall({
+  return Api.apiCall<ClockSpeedProps>({
     url: "/clock",
     method: "PUT",
     data: props,
-  })
-    .then((res) => console.log("Response on PUT clock speed: ", res))
-    .catch((err) => console.log("Err on PUT clock speed: ", err));
+  });
 };
 
 export const patchClockRun = (props: ClockRunProps) => {
-  return Api.apiCall({
+  return Api.apiCall<ClockRunProps>({
     url: "/clock",
     method: "PATCH",
     data: props,
-  })
-    .then((res) => console.log("Response on PUT clock speed: ", res))
-    .catch((err) => console.log("Err on PUT clock speed: ", err));
+  });
 };
 
-export const syncClockTime = (props: SyncClockTimeProps) => {
-  return Api.apiCall({
+export const syncClockTime = () => {
+  return Api.apiCall<SyncClockTimeProps>({
     url: "/clock",
     method: "GET",
-    data: props,
-  })
-    .then((res) => console.log("Response on GET clock speed: ", res))
-    .catch((err) => console.log("Err on GET clock speed: ", err));
+  });
 };

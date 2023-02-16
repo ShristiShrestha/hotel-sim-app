@@ -2,12 +2,20 @@ import React, { useEffect, useState } from "react";
 import Clock from "react-clock";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
-import { updateClockRun, updateClockSpeed } from "../../redux/clock/actions";
-import { ClockSpeedTypeAll } from "../../models/enums/ClockSpeedType";
+import {
+  fetchClockSyncTime,
+  updateClockRun,
+  updateClockSpeed,
+} from "../../redux/clock/actions";
+import {
+  ClockSpeedType,
+  ClockSpeedTypeAll,
+} from "../../models/enums/ClockSpeedType";
 import { selectClockValues } from "../../redux/clock/reducer";
 import { ResText10Regular, ResText10SemiBold } from "../../www/utils/TextUtils";
-import {Button, Form, InputNumber, Select, Switch} from "antd";
-import { parseFormItem } from "../../www/utils/FormUtils";
+import { Button, Form, InputNumber, Select, Switch } from "antd";
+import { grey4 } from "../../www/utils/ShadesUtils";
+import { toDateStr } from "../../www/utils/DateUtils";
 
 const { Option } = Select;
 
@@ -42,23 +50,45 @@ const Wrapper = styled.div.attrs({
     right: 0;
   }
 
-  .ant-form-item{
+  .ant-form-item {
     margin-bottom: 0;
   }
 `;
 
 export default function SimClock() {
   const dispatch = useDispatch();
-  const [value, setValue] = useState(new Date());
-  const [speed, setSpeed] = useState(null);
-  const [speedType, setSpeedType] = useState(null)
+  const [speed, setSpeed] = useState<number | undefined>(undefined);
+  const [speedType, setSpeedType] = useState<ClockSpeedType | undefined>(
+    undefined
+  );
   let interval: any = null;
   const { begin_ts, clock_running, new_ts, rate } =
     useSelector(selectClockValues);
 
+  // on mount, if clock is set running in redux
+  // update begin_ts in server
   useEffect(() => {
+    dispatchClockRun(clock_running);
+  }, []);
+
+  // on mount if clock speed is set in redux
+  // update rate in server as well
+  useEffect(() => {
+    if (rate && Object.values(rate).length > 0 && rate.value > 0) {
+      dispatchClockSpeed(rate.value, rate.type);
+    }
+  }, []);
+
+  // sync clock by providing current timestamp value
+  useEffect(() => {
+    if (interval) {
+      console.log("clearing previous");
+      clearInterval(interval);
+    }
     if (clock_running) {
-      interval = setInterval(() => setValue(new Date()), 1000);
+      interval = setInterval(() => {
+        dispatchClockSync();
+      }, 1000);
     }
 
     return () => {
@@ -66,9 +96,59 @@ export default function SimClock() {
     };
   }, [clock_running]);
 
+  /******************* dispatch handlers ************************/
+
+  const dispatchClockRun = (isRunning) => {
+    dispatch(updateClockRun({ current_ts: new Date(), enabled: isRunning }));
+  };
+
+  const dispatchClockSpeed = (
+    clockSpeed?: number,
+    clockSpeedType?: ClockSpeedType
+  ) => {
+    clockSpeed &&
+      clockSpeedType &&
+      dispatch(
+        updateClockSpeed({
+          rate: { value: clockSpeed, type: clockSpeedType },
+          current_ts: new Date(),
+        })
+      );
+  };
+
+  const dispatchClockSync = () => {
+    dispatch(fetchClockSyncTime());
+  };
+
+  /*******************  event handlers  ************************/
+  const onValuesChange = (changedValues, allValues) => {
+    const newRateType = allValues["speed_type"];
+    const newRateVal = allValues["speed"];
+    const newClockRunning = allValues["is_running"];
+    const changedFields = Object.keys(changedValues);
+
+    if (changedFields.includes("speed")) {
+      setSpeed(newRateVal);
+    }
+
+    if (changedFields.includes("speed_type")) {
+      setSpeedType(newRateType);
+    }
+
+    if (changedFields.includes("is_running")) {
+      dispatchClockRun(newClockRunning);
+    }
+  };
+
+  const onSubmitSpeedChange = () => {
+    speed && speedType && dispatchClockSpeed(speed, speedType);
+  };
+
+  /******************* jsx elements ************************/
+
   const suffixSelector = (
     <Form.Item name="speed_type" noStyle>
-      <Select style={{ width: 65 }} defaultValue={rate.type}>
+      <Select style={{ width: 65 }} defaultValue={rate?.type}>
         {ClockSpeedTypeAll.map((item) => (
           <Option value={item}>
             <ResText10Regular>{item}</ResText10Regular>
@@ -78,73 +158,60 @@ export default function SimClock() {
     </Form.Item>
   );
 
-  const onValuesChange = (changedValues, allValues) => {
-    const newRateType = allValues["speed_type"];
-    const newRateVal = allValues["speed"];
-    const newClockRunning = allValues["is_running"];
-    const changedFields = Object.keys(changedValues);
-
-    if(changedFields.includes("speed")){
-      setSpeed(newRateVal)
-    }
-
-    if(changedFields.includes("speed_type")){
-      setSpeedType(newRateType)
-    }
-
-    if (changedFields.includes("is_running")) {
-      dispatch(
-        updateClockRun({ current_ts: new Date(), enabled: newClockRunning })
-      );
-    }
-  };
-
-  const onSubmitSpeedChange = () => {
-    !!speed && !!speedType && dispatch(
-        updateClockSpeed({
-          rate: { value: speed, type: speedType },
-          current_ts: new Date(),
-        })
-    );
-  }
-
   const changeSpeedForm = (
-      <Form
-        name="complex-form"
-        onValuesChange={onValuesChange}
-        style={{ maxWidth: 150 }}
-        labelCol={{ span: 24 }}
-        wrapperCol={{ span: 24 }}
-      >
-        <Form.Item
-            name="is_running"
-            label={<ResText10SemiBold>Run Clock</ResText10SemiBold>}
-            valuePropName="checked"
-        >
-          <Switch defaultChecked={clock_running} checked={clock_running} />
-        </Form.Item>
+    <Form
+      name="complex-form"
+      onValuesChange={onValuesChange}
+      style={{ maxWidth: 250 }}
+      labelCol={{ span: 24 }}
+      wrapperCol={{ span: 24 }}
+    >
+      {begin_ts && (
+        <>
+          <div>
+            <ResText10SemiBold>Begin time</ResText10SemiBold>
+          </div>
+          <ResText10Regular color={grey4}>
+            {toDateStr(begin_ts)}
+          </ResText10Regular>
+          <div>
+            <ResText10SemiBold>{toDateStr(new_ts)}</ResText10SemiBold>
+          </div>
+        </>
+      )}
 
-        <Form.Item
-          name="speed"
-          label={<ResText10SemiBold>Speed</ResText10SemiBold>}
-        >
-          <InputNumber
-            defaultValue={rate.value}
-            addonAfter={suffixSelector}
-            style={{ width: "100%" }}
-          />
-        </Form.Item>
-        <Button type={"primary"} size={"small"}
-                onClick={() => onSubmitSpeedChange()}
-                style={{borderRadius: 8, width: "100%"}}>
-          <ResText10Regular>Submit</ResText10Regular>
-        </Button>
-      </Form>
+      <Form.Item
+        name="is_running"
+        label={<ResText10SemiBold>Run Clock</ResText10SemiBold>}
+        valuePropName="checked"
+      >
+        <Switch defaultChecked={clock_running} checked={clock_running} />
+      </Form.Item>
+
+      <Form.Item
+        name="speed"
+        label={<ResText10SemiBold>Speed</ResText10SemiBold>}
+      >
+        <InputNumber
+          defaultValue={rate?.value}
+          addonAfter={suffixSelector}
+          style={{ width: "100%" }}
+        />
+      </Form.Item>
+      <Button
+        type={"primary"}
+        size={"small"}
+        onClick={() => onSubmitSpeedChange()}
+        style={{ borderRadius: 8, width: "100%" }}
+      >
+        <ResText10Regular>Submit</ResText10Regular>
+      </Button>
+    </Form>
   );
 
   return (
     <Wrapper>
-      <Clock value={value} renderNumbers />
+      <Clock value={new_ts} renderNumbers />
       <div>{changeSpeedForm}</div>
     </Wrapper>
   );
