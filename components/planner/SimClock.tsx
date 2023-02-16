@@ -2,15 +2,8 @@ import React, { useEffect, useState } from "react";
 import Clock from "react-clock";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  fetchClockSyncTime,
-  updateClockRun,
-  updateClockSpeed,
-} from "../../redux/clock/actions";
-import {
-  ClockSpeedType,
-  ClockSpeedTypeAll,
-} from "../../models/enums/ClockSpeedType";
+import { updateClockRun, updateClockSpeed } from "../../redux/clock/actions";
+import { ClockSpeedTypeAll } from "../../models/enums/ClockSpeedType";
 import { selectClockValues } from "../../redux/clock/reducer";
 import { ResText10Regular, ResText10SemiBold } from "../../www/utils/TextUtils";
 import { Form, InputNumber, Select, Switch } from "antd";
@@ -58,14 +51,7 @@ export default function SimClock() {
     useSelector(selectClockValues);
 
   useEffect(() => {
-    dispatch(
-      updateClockSpeed({
-        rate: { value: 20, type: ClockSpeedType.HR },
-        current_ts: new Date(),
-      })
-    );
-    dispatch(updateClockRun({ current_ts: new Date(), enabled: false }));
-    dispatch(fetchClockSyncTime({ current_ts: new Date() }));
+    // dispatch(fetchClockSyncTime({ current_ts: new Date() }));
   }, []);
 
   let interval: any = null;
@@ -96,14 +82,31 @@ export default function SimClock() {
     const newRateType = parseFormItem(allFields, "speed_type");
     const newRateVal = parseFormItem(allFields, "speed");
     const newClockRunning = parseFormItem(allFields, "is_running");
-    console.log("new values: ", newRateType, newRateVal, newClockRunning);
   };
 
   const onValuesChange = (changedValues, allValues) => {
     const newRateType = allValues["speed_type"];
     const newRateVal = allValues["speed"];
     const newClockRunning = allValues["is_running"];
-    console.log("new values: ", newRateType, newRateVal, newClockRunning);
+    const changedFields = Object.keys(changedValues);
+
+    if (
+      changedFields.includes("speed") ||
+      changedFields.includes("speed_type")
+    ) {
+      dispatch(
+        updateClockSpeed({
+          rate: { value: newRateVal, type: newRateType },
+          current_ts: new Date(),
+        })
+      );
+    }
+
+    if (changedFields.includes("is_running")) {
+      dispatch(
+        updateClockRun({ current_ts: new Date(), enabled: newClockRunning })
+      );
+    }
   };
 
   const getChangeSpeed = () => (
