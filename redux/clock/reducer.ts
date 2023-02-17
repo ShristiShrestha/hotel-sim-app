@@ -35,7 +35,11 @@ export const selectClockValues = (state: RootState) => {
 export default function reducer(state = initialState, action: any): ClockState {
   switch (action.type) {
     case SET_CLOCK_SPEED: {
-      return { ...state, rate: action.payload.rate };
+      return {
+        ...state,
+        rate: action.payload.rate,
+        new_ts: action.payload.current_ts,
+      };
     }
     case SET_CLOCK_RUN: {
       return {

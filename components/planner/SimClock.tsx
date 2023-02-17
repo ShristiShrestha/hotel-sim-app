@@ -57,10 +57,8 @@ const Wrapper = styled.div.attrs({
 
 export default function SimClock() {
   const dispatch = useDispatch();
-  const [speed, setSpeed] = useState<number | undefined>(undefined);
-  const [speedType, setSpeedType] = useState<ClockSpeedType | undefined>(
-    undefined
-  );
+  const [speed, setSpeed] = useState(32);
+  const [speedType, setSpeedType] = useState(ClockSpeedType.MIN);
   let interval: any = null;
   const { begin_ts, clock_running, new_ts, rate } =
     useSelector(selectClockValues);
