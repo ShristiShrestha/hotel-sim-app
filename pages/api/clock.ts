@@ -44,7 +44,7 @@ export default function handler(req, res) {
         const simSecsInADay = getSecsInSimDay(rate["value"], rate["type"]);
         const daysSpentInSim = realOffsetSecs / simSecsInADay;
         const newSimTs = new Date(
-          beginTs.getTime() + daysSpentInSim * SECS_IN_DAY * 10000
+          beginTs.getTime() + daysSpentInSim * SECS_IN_DAY * 1000
         );
         res.status(200).json({ new_ts: newSimTs });
       }

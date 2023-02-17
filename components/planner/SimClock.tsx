@@ -211,7 +211,7 @@ export default function SimClock() {
 
   return (
     <Wrapper>
-      <Clock value={new_ts} renderNumbers />
+      <Clock value={new_ts} renderSecondHand={false} renderNumbers />
       <div>{changeSpeedForm}</div>
     </Wrapper>
   );

@@ -13,7 +13,7 @@ import { RootState } from "../common/types";
 
 const initialState: ClockState = {
   rate: { value: 32, type: ClockSpeedType.MIN },
-  clock_running: false,
+  clock_running: true,
 };
 
 // -------------------------------------------------------------------------------- //
