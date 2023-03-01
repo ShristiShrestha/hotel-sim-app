@@ -43,6 +43,7 @@ export default function reducer(state = initialState, action: any): ClockState {
     case SET_CLOCK_RUN: {
       return {
         ...state,
+        begin_ts: action.payload.begin_ts || state.begin_ts,
         new_ts: action.payload.current_ts,
         clock_running: action.payload.enabled,
       };

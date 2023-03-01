@@ -152,8 +152,8 @@ export const toHourMinStr = (date: Date) =>
 /// days or hours w.r.t current moment
 /// <0 => day is behind the today
 /// >0 => day is ahead of today
-export const driftFromToday = (date: any) =>
-  new Date().getTime() - parseDateStrToDate(date).getTime();
+export const driftFromToday = (date: any, fromDate = new Date()) =>
+  fromDate.getTime() - parseDateStrToDate(date).getTime();
 
 const getStr = (
   momentVal: any,
@@ -190,8 +190,11 @@ export const getDriftedDateStr = (
   return momentStr.length > 0 ? `a moment ${momentStr}` : `in a moment`;
 };
 
-export const driftDateStr = (dateStr: string) => {
-  let drift = driftFromToday(parseDateStrToDate(dateStr));
+export const driftDateStr = (dateStr: any, fromDateStr: any) => {
+  let drift = driftFromToday(
+    parseDateStrToDate(dateStr),
+    parseDateStrToDate(fromDateStr)
+  );
   drift = toDays(drift);
   if (drift < 0) return getDriftedDateStr(Math.abs(drift.valueOf()), "");
   return getDriftedDateStr(drift.valueOf(), "ago");

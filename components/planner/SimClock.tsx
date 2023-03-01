@@ -15,7 +15,11 @@ import { selectClockValues } from "../../redux/clock/reducer";
 import { ResText10Regular, ResText10SemiBold } from "../../www/utils/TextUtils";
 import { Button, Form, InputNumber, Select, Switch } from "antd";
 import { grey4 } from "../../www/utils/ShadesUtils";
-import { parseDateStrToDate, toDateStr } from "../../www/utils/DateUtils";
+import {
+  driftDateStr,
+  parseDateStrToDate,
+  toDateStr,
+} from "../../www/utils/DateUtils";
 
 const { Option } = Select;
 
@@ -187,33 +191,39 @@ export default function SimClock() {
       labelCol={{ span: 24 }}
       wrapperCol={{ span: 24 }}
     >
-      {begin_ts && (
-        <>
-          <div>
-            <ResText10SemiBold>Begin time</ResText10SemiBold>
-          </div>
-          <ResText10Regular color={grey4}>
-            {toDateStr(begin_ts)}
-          </ResText10Regular>
-          <div>
-            <ResText10SemiBold>Real time</ResText10SemiBold>
-          </div>
-          <ResText10Regular>{toDateStr(realTs)}</ResText10Regular>
-          {clock_running && (
-            <Button
-              type={"primary"}
-              size={"small"}
-              onClick={() => dispatchClockRun(true, true)}
-            >
-              <ResText10Regular>Set begin ts</ResText10Regular>
-            </Button>
+      <>
+        <div>
+          <ResText10SemiBold>Real time</ResText10SemiBold>
+        </div>
+        <ResText10Regular>{toDateStr(realTs)}</ResText10Regular>
+        {clock_running && (
+          <Button
+            type={"primary"}
+            size={"small"}
+            onClick={() => dispatchClockRun(true, true)}
+          >
+            <ResText10Regular>Set new begin ts</ResText10Regular>
+          </Button>
+        )}
+        <div>
+          <ResText10SemiBold>Begin time</ResText10SemiBold>
+        </div>
+        <ResText10Regular color={grey4}>
+          {begin_ts && toDateStr(begin_ts)}
+        </ResText10Regular>
+        <div>
+          <ResText10SemiBold>Simulated time</ResText10SemiBold>
+        </div>
+        <ResText10Regular>{toDateStr(new_ts)}</ResText10Regular>
+        <div>
+          <ResText10SemiBold>Time spent since begin ts (sim)</ResText10SemiBold>
+          {new_ts && (
+            <ResText10Regular>
+              {driftDateStr(new_ts!!, begin_ts)}
+            </ResText10Regular>
           )}
-          <div>
-            <ResText10SemiBold>Simulated time</ResText10SemiBold>
-          </div>
-          <ResText10Regular>{toDateStr(new_ts)}</ResText10Regular>
-        </>
-      )}
+        </div>
+      </>
 
       <Form.Item
         name="is_running"
@@ -222,7 +232,6 @@ export default function SimClock() {
       >
         <Switch defaultChecked={clock_running} checked={clock_running} />
       </Form.Item>
-
       <Form.Item
         name="speed"
         label={<ResText10SemiBold>Speed</ResText10SemiBold>}
@@ -247,7 +256,13 @@ export default function SimClock() {
   return (
     <Wrapper>
       <div>
+        <ResText10SemiBold>Real clock</ResText10SemiBold>
         <Clock value={realTs} renderNumbers />
+        <ResText10SemiBold>Start of game</ResText10SemiBold>
+        {begin_ts && (
+          <Clock value={parseDateStrToDate(begin_ts)} renderNumbers />
+        )}
+        <ResText10SemiBold>Game clock</ResText10SemiBold>
         <Clock
           value={new_ts ? parseDateStrToDate(new_ts) : undefined}
           renderSecondHand={true}

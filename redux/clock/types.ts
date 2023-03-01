@@ -15,6 +15,7 @@ export const PATCH_CLOCK_RUN = "PATCH_CLOCK_RUN";
 export const SET_CLOCK_RUN = "SET_CLOCK_RUN";
 
 export type ClockRunProps = {
+  begin_ts?: Date;
   current_ts?: Date; // may need to rename it to show begin_ts instead
   enabled: boolean;
 };

@@ -1,22 +1,22 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 
 import { ClockSpeedType } from "../../models/enums/ClockSpeedType";
-import { parseDateStrToDate, toDateStr } from "../../www/utils/DateUtils";
+import { parseDateStrToDate } from "../../www/utils/DateUtils";
 
 // start timestamp when creating a new game
 let beginTs: Date | null = null;
 let rate = { value: null, type: null };
-// same as beginTs when new begin ts is set,
-// when clock is stopped, it stores the last stop ts
-// as a new reference (begin ts) for the clock,
-// from which partOfDay is calculated
-// stores the timestamp when the clock is stopped
-let lastStopTs: Date | null = null;
-
-// real timestamp after lastStopTs marking
+// stores reference point in simulation clock
+// marking ts when sim clock was last stopped
+let lastStopTsSim: Date | null = null;
+// stores reference point in real clock
+// marking ts when real clock was last stopped
+let lastStopTsReal: Date | null = null;
+// real timestamp after lastStopTsReal marking
 // when the clock is resumed
-let lastResumeTs: Date | null = null;
-let shouldUseLastStopTs: boolean | null = null;
+let lastResumeTsReal: Date | null = null;
+
+let useLastStopTsSim: boolean | null = null;
 let clockRunning = null;
 
 const SECS_IN_DAY = 86400;
@@ -47,15 +47,19 @@ export default function handler(req, res) {
       if (enabled && currentTs) {
         clockRunning = enabled;
         beginTs = parseDateStrToDate(currentTs);
-        lastStopTs = beginTs; // initializing the very first ts of creating simulation
+        lastStopTsSim = beginTs; // initializing the very first ts of creating simulation
         const syncTs = getNewTs();
-        responseData = { current_ts: syncTs, enabled: enabled };
+        responseData = {
+          begin_ts: beginTs,
+          current_ts: syncTs,
+          enabled: enabled,
+        };
         res.status(200).json(responseData);
         break;
       }
-      // clock is enabled only without current_ts
+
       // simply turning the clock on (unlike creating a new game)
-      // this part is tricky
+      // clock is enabled only without current_ts
       else if (enabled) {
         clockRunning = enabled;
         const syncTs = getNewTs();
@@ -66,9 +70,10 @@ export default function handler(req, res) {
       // disable clock run
       // if clocks is disabled, current_ts represents the time clock is stopped
       else if (currentTs) {
-        lastStopTs = parseDateStrToDate(currentTs);
-        shouldUseLastStopTs = true;
-        responseData = { current_ts: lastStopTs, enabled: enabled };
+        lastStopTsSim = parseDateStrToDate(currentTs); // use simulation ts since user stop by looking at on sim clock
+        lastStopTsReal = new Date(); // use this to calculate partOfDay skipped since last clock is resumed
+        useLastStopTsSim = true;
+        responseData = { current_ts: lastStopTsSim, enabled: enabled };
         res.status(200).json(responseData);
       }
       break;
@@ -81,55 +86,49 @@ export default function handler(req, res) {
   }
 }
 
-// use lastStopTs with nowTs to calculate partOfDay in simulated clock
-// when clock stops, update lastStopTs with lastStopTs
-// if lastStopTs != beginTs, return simulatedPortionOfDayPassed(lastStopTs-beginTs) + simulatedPortionOfDayPassed(nowTs - lastStopTs)
+// use lastStopTsSim with nowTs to calculate partOfDay in simulated clock
+// when clock stops, update lastStopTsSim with lastStopTsSim
+// if lastStopTsSim != beginTs, return simulatedPortionOfDayPassed(lastStopTsSim-beginTs) + simulatedPortionOfDayPassed(nowTs - lastStopTsSim)
 const getNewTs = () => {
   const valuesProvided =
-    beginTs && lastStopTs && rate["value"] && rate["value"] > 0 && rate["type"];
+    beginTs &&
+    lastStopTsSim &&
+    rate["value"] &&
+    rate["value"] > 0 &&
+    rate["type"];
   const clockNotStoppedSinceBeginTs =
-    beginTs?.getTime() == lastStopTs?.getTime();
+    beginTs?.getTime() == lastStopTsSim?.getTime();
   // if the clock is running since the start of the game
   if (valuesProvided && clockNotStoppedSinceBeginTs) {
     const nowTs = new Date();
     const realOffsetSecs = (nowTs.getTime() - beginTs!!.getTime()) / 1000;
     const simSecsInADay = getSecsInSimDay(rate["value"]!!, rate["type"]!!);
     const daysSpentInSim = realOffsetSecs / simSecsInADay;
-    console.log("Returning normal");
     return new Date(beginTs!!.getTime() + daysSpentInSim * SECS_IN_DAY * 1000);
   }
 
   // resuming clock at the point it was stopped
-  if (valuesProvided && !clockNotStoppedSinceBeginTs && shouldUseLastStopTs) {
-    console.log("Returning the last stop ts");
-    const resumeTs = lastStopTs!!; // real timestamp when the clock was stopped
-    lastResumeTs = new Date(); // real timestamp when the clock is resumed
-    shouldUseLastStopTs = false;
-    return resumeTs;
+  if (valuesProvided && !clockNotStoppedSinceBeginTs && useLastStopTsSim) {
+    lastResumeTsReal = new Date(); // real timestamp when the clock is resumed
+    useLastStopTsSim = false;
+    return lastStopTsSim;
   }
 
   if (
     valuesProvided &&
     !clockNotStoppedSinceBeginTs &&
-    !shouldUseLastStopTs &&
-    lastResumeTs
+    !useLastStopTsSim &&
+    lastResumeTsReal
   ) {
     const nowTs = new Date();
     const simSecsInADay = getSecsInSimDay(rate["value"]!!, rate["type"]!!);
-    const realOffsetSecsBeforeLastStop =
-      (lastStopTs!!.getTime() - beginTs!!.getTime()) / 1000;
     const realOffsetSecsAfterLastStop =
-      (nowTs.getTime() - lastResumeTs!!.getTime()) / 1000;
-    const daysSpentInSimBeforeLastStop =
-      (realOffsetSecsBeforeLastStop + realOffsetSecsAfterLastStop) /
-      simSecsInADay;
-    console.log(
-      "Returning since resume time ",
-      toDateStr(lastStopTs!!),
-      toDateStr(lastResumeTs!!)
-    );
+      (nowTs.getTime() - lastResumeTsReal!!.getTime()) / 1000;
+    const daysSpentInSimAfterLastStop =
+      realOffsetSecsAfterLastStop / simSecsInADay;
     return new Date(
-      beginTs!!.getTime() + daysSpentInSimBeforeLastStop * SECS_IN_DAY * 1000
+      lastStopTsSim!!.getTime() +
+        daysSpentInSimAfterLastStop * SECS_IN_DAY * 1000
     );
   }
 };
