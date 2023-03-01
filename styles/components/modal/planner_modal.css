@@ -30,7 +30,7 @@
     position: relative;
     width: 100%;
     height: fit-content;
-    max-height: 26vh;
+    max-height: 100vh;
     background: white;
     margin: auto;
     border-radius: 0 0 4px 4px;

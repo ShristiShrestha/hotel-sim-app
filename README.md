@@ -1,5 +1,22 @@
 Developer guide for this repo [Developer Guide](/developer_guide.md)
 
+---
+
+## Time synchronization
+
+The clock speed is inversely proportional to the degree of change in simulated clock.
+
+`Number of secs spent in simulation in 1 real second = (1440/speed_in_min)`
+
+If 720 minutes (speed; half than real day), then in 1 real second, it is 2 seconds spent in simulated clock.
+Inversely, if 2880 minutes (speed; double than real day), then 2 real seconds, it is 1 second spent in simulated clock.
+
+Therefore, **if clock speed is 24 minutes (1440/60) in a simulated day, then for every 1 real second, it is 1 minute in simulated clock.**
+If we double the clock speed (48 minutes), then for every 2 real seconds, it is 1 minute in simulated clock. 
+If we half the clock speed (12 minutes), then for every 1 real second, it is 2 minute spent in simulated clock.
+----
+
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped
 with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 

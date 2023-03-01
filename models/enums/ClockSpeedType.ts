@@ -1,7 +1,7 @@
 export enum ClockSpeedType {
-  SEC = "SEC",
+  // SEC = "SEC",
   MIN = "MIN",
-  HR = "HR",
+  // HR = "HR",
 }
 
 export const ClockSpeedTypeAll = Object.values(ClockSpeedType);

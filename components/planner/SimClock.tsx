@@ -1,21 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState} from "react";
 import Clock from "react-clock";
 import styled from "styled-components";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  fetchClockSyncTime,
-  updateClockRun,
-  updateClockSpeed,
-} from "../../redux/clock/actions";
-import {
-  ClockSpeedType,
-  ClockSpeedTypeAll,
-} from "../../models/enums/ClockSpeedType";
-import { selectClockValues } from "../../redux/clock/reducer";
-import { ResText10Regular, ResText10SemiBold } from "../../www/utils/TextUtils";
-import { Button, Form, InputNumber, Select, Switch } from "antd";
-import { grey4 } from "../../www/utils/ShadesUtils";
-import { toDateStr } from "../../www/utils/DateUtils";
+import {useDispatch, useSelector} from "react-redux";
+import {fetchClockSyncTime, updateClockRun, updateClockSpeed,} from "../../redux/clock/actions";
+import {ClockSpeedType, ClockSpeedTypeAll,} from "../../models/enums/ClockSpeedType";
+import {selectClockValues} from "../../redux/clock/reducer";
+import {ResText10Regular, ResText10SemiBold, ResText12Regular} from "../../www/utils/TextUtils";
+import {Button, Form, InputNumber, Select, Switch} from "antd";
+import {grey4} from "../../www/utils/ShadesUtils";
+import {toDateStr} from "../../www/utils/DateUtils";
 
 const { Option } = Select;
 
@@ -60,14 +53,29 @@ export default function SimClock() {
   const [speed, setSpeed] = useState(32);
   const [speedType, setSpeedType] = useState(ClockSpeedType.MIN);
   let interval: any = null;
+  let realInterval: any = null;
   const { begin_ts, clock_running, new_ts, rate } =
     useSelector(selectClockValues);
+  const [realTs, setRealTs] = useState(new Date())
 
   // on mount, if clock is set running in redux
-  // update begin_ts in server
+  // update begin_ts in server only if clock is default to true
   useEffect(() => {
-    dispatchClockRun(clock_running);
+    dispatchClockRun(clock_running, clock_running);
   }, []);
+
+  useEffect(() => {
+    if (realInterval) {
+      clearInterval(interval);
+    }
+    realInterval = setInterval(() => {
+      setRealTs(new Date())
+    }, 1000);
+
+    return () => {
+      realInterval && clearInterval(realInterval);
+    };
+  }, [])
 
   // on mount if clock speed is set in redux
   // update rate in server as well
@@ -79,8 +87,7 @@ export default function SimClock() {
 
   // sync clock by providing current timestamp value
   useEffect(() => {
-    if (interval) {
-      console.log("clearing previous");
+    if (interval || !clock_running) {
       clearInterval(interval);
     }
     if (clock_running) {
@@ -96,8 +103,8 @@ export default function SimClock() {
 
   /******************* dispatch handlers ************************/
 
-  const dispatchClockRun = (isRunning) => {
-    dispatch(updateClockRun({ current_ts: new Date(), enabled: isRunning }));
+  const dispatchClockRun = (isRunning, sendCurrentTs = false) => {
+    dispatch(updateClockRun({ current_ts: sendCurrentTs || !isRunning ? new Date() : undefined, enabled: isRunning }));
   };
 
   const dispatchClockSpeed = (
@@ -173,10 +180,22 @@ export default function SimClock() {
             {toDateStr(begin_ts)}
           </ResText10Regular>
           <div>
-            <ResText10SemiBold>{toDateStr(new_ts)}</ResText10SemiBold>
+            <ResText10SemiBold>Real time</ResText10SemiBold>
           </div>
+            <ResText10Regular>{toDateStr(realTs)}</ResText10Regular>
+          {clock_running && <Button type={"primary"}
+                                    size={"small"}
+                                    onClick={() => dispatchClockRun(true, true)}>
+            <ResText10Regular>Set begin ts</ResText10Regular>
+          </Button>}
+          <div>
+            <ResText10SemiBold>Simulated time</ResText10SemiBold>
+          </div>
+            <ResText10Regular>{toDateStr(new_ts)}</ResText10Regular>
         </>
       )}
+
+
 
       <Form.Item
         name="is_running"
@@ -209,8 +228,17 @@ export default function SimClock() {
 
   return (
     <Wrapper>
-      <Clock value={new_ts} renderSecondHand={false} renderNumbers />
+      <div>
+        <Clock value={realTs} renderNumbers />
+        <Clock value={new_ts ? new Date(new_ts) : undefined} renderSecondHand={true} renderNumbers />
+      </div>
       <div>{changeSpeedForm}</div>
+      <ResText12Regular>The pace with which simulated secs run is inversely proportional to real secs.
+        So, if you double the number of minutes (speed) compared to real time (2*1440 mins or 2*86400 secs)
+        then, simulated clock will be slower i.e. for every real 2 seconds, it is only 1 second in simulated clock.
+        Inversely, if you half the number of minutes (720 mins), then the simulated clock will be faster i.e.
+        for every 1 real second, it is 2 seconds spent in simulated clock.
+      </ResText12Regular>
     </Wrapper>
   );
 }
