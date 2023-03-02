@@ -61,7 +61,7 @@ const Wrapper = styled.div.attrs({
 
 export default function SimClock() {
   const dispatch = useDispatch();
-  const [speed, setSpeed] = useState(32);
+  const [speed, setSpeed] = useState(null);
   const [speedType, setSpeedType] = useState(ClockSpeedType.MIN);
   let interval: any = null;
   let realInterval: any = null;
@@ -98,17 +98,17 @@ export default function SimClock() {
 
   // sync clock by providing current timestamp value
   useEffect(() => {
-    if (interval || !clock_running) {
+    if (interval) {
       clearInterval(interval);
     }
     if (clock_running) {
       interval = setInterval(() => {
         dispatchClockSync();
-      }, 1000);
+      }, 2000);
     }
 
     return () => {
-      !!interval && clearInterval(interval);
+      interval && clearInterval(interval);
     };
   }, [clock_running]);
 

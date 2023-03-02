@@ -14,7 +14,8 @@ Inversely, if 2880 minutes (speed; double than real day), then 2 real seconds, i
 Therefore, **if clock speed is 24 minutes (1440/60) in a simulated day, then for every 1 real second, it is 1 minute in simulated clock.**
 If we double the clock speed (48 minutes), then for every 2 real seconds, it is 1 minute in simulated clock. 
 If we half the clock speed (12 minutes), then for every 1 real second, it is 2 minute spent in simulated clock.
-----
+
+---
 
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped

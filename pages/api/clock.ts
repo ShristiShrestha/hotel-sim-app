@@ -32,7 +32,9 @@ export default function handler(req, res) {
       const newRateType = requestData["rate"]["type"];
       rate["value"] = newRate;
       rate["type"] = newRateType;
+      const syncTs = getNewTs();
       responseData = {
+        current_ts: syncTs,
         rate: rate, // no need to sync ts since GET api call handles it
       };
       res.status(200).json(responseData);

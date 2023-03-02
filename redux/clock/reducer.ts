@@ -37,6 +37,7 @@ export default function reducer(state = initialState, action: any): ClockState {
     case SET_CLOCK_SPEED: {
       return {
         ...state,
+        new_ts: action.payload.current_ts,
         rate: action.payload.rate,
       };
     }
