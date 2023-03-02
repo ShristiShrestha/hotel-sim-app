@@ -104,7 +104,7 @@ export default function SimClock() {
     if (clock_running) {
       interval = setInterval(() => {
         dispatchClockSync();
-      }, 2000);
+      }, 6000);
     }
 
     return () => {

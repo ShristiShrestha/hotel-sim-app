@@ -77,11 +77,17 @@ export default function handler(req, res) {
         useLastStopTsSim = true;
         responseData = { current_ts: lastStopTsSim, enabled: enabled };
         res.status(200).json(responseData);
+        break;
       }
+      res.status(200);
       break;
     case "GET": // get new timestamp : sync clock
       const newSimTsOnSync = getNewTs();
-      if (newSimTsOnSync) res.status(200).json({ new_ts: newSimTsOnSync });
+      if (newSimTsOnSync) {
+        res.status(200).json({ new_ts: newSimTsOnSync });
+        break;
+      }
+      res.status(200);
       break;
     default:
       res.status(200).json({ name: "DEFAULT RESPONSE" });
